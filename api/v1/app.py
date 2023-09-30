@@ -18,6 +18,7 @@ def close_db(error):
     """close open storage session after a request"""
     storage.close()
 
+
 @app.errorhandler(404)
 def handle_error(err):
     """handle resource not found error"""
