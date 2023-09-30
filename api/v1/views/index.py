@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+"""defined the views with their respective routes"""
+
 from api.v1.views import app_views
 from flask import jsonify
 from models.base_model import BaseModel
