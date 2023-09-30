@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Instantiate a Flask application"""
 
-from flask import Flask
+from flask import Flask, jsonify, make_response
 from models import storage
 from api.v1.views import app_views
 from os import getenv
@@ -17,6 +17,11 @@ app.register_blueprint(app_views)
 def close_db(error):
     """close open storage session after a request"""
     storage.close()
+
+@app.errorhandler(404)
+def handle_error(err):
+    """handle resource not found error"""
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 if __name__ == "__main__":
