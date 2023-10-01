@@ -46,7 +46,6 @@ def create_a_state():
             raise ValueError("Missing name")
     except (TypeError, ValueError) as e:
         return (jsonify({"error": e}), 400)
-    print(new_state)
     new_state = m.state.State(**new_state)
     new_state.save()
     return (jsonify(new_state.to_dict(), 201))
@@ -59,7 +58,7 @@ def update_a_state(state_id):
     new_changes = request.get_json()
     if not obj:
         abort(404)
-    elif not new_changes:
+    if not new_changes:
         return (jsonify({"error": "Not a Json"}), 400)
     for key, val in new_changes.items():
         if not (key in ("updated_at", "created_at", "id")):
