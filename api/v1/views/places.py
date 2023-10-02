@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""view for Place objects.
+"""view for Place object.
     It handles all default RESTFul API actions
 """
 
