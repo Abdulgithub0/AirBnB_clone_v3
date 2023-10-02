@@ -39,9 +39,6 @@ class FileStorage:
         """sets in __objects the obj with key <obj class name>.id"""
         if obj is not None:
             key = obj.__class__.__name__ + "." + obj.id
-            if obj.__class__.name == "User" or type(obj) == User:
-                secure_pwd = md5(obj["password"].encode("utf-8"))
-                obj["password"] = secure_pwd.hexdigest()
             self.__objects[key] = obj
 
     def save(self):
