@@ -9,6 +9,7 @@ from api.v1.views import app_views
 from models.review import Review
 from models.place import Place
 from flask import jsonify, abort, request
+from models.user import User
 
 
 @app_views.route("/places/<place_id>/reviews", strict_slashes=False)
@@ -43,7 +44,7 @@ def delete_a_review(review_id):
 
 @app_views.route("/places/<place_id>/reviews", methods=["POST"],
                  strict_slashes=False)
-def create_a_place(place_id):
+def create_a_review(place_id):
     """add new review to data storage"""
     place = storage.get(Place, place_id)
     new_review = request.get_json()
@@ -51,11 +52,11 @@ def create_a_place(place_id):
         abort(404)
     if not new_review:
         return jsonify({"error": "Not a JSON"}), 400
-    if not ("text" in new_place):
+    if not ("text" in new_review):
         return jsonify({"error": "Missing text"}), 400
-    if not ("user_id" in new_place):
+    if not ("user_id" in new_review):
         return jsonify({"error": "Missing user_id"}), 400
-    if not storage.get(User, new_place["user_id"]):
+    if not storage.get(User, new_review["user_id"]):
         abort(404)
     new = Review(**new_review)
     new.save()
@@ -64,7 +65,7 @@ def create_a_place(place_id):
 
 @app_views.route("/reviews/<review_id>", methods=["PUT"],
                  strict_slashes=False)
-def update_a_place(review_id):
+def update_a_review(review_id):
     """update a review obj in data storage"""
     review = storage.get(Review, review_id)
     changes = request.get_json()
