@@ -2,7 +2,7 @@
 """
 Contains the FileStorage class
 """
-
+ 
 import json
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -11,6 +11,7 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+from hashlib import md5
 
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -38,11 +39,14 @@ class FileStorage:
         """sets in __objects the obj with key <obj class name>.id"""
         if obj is not None:
             key = obj.__class__.__name__ + "." + obj.id
+            if obj.__class__.name == "User" or type(obj) == User:
+                secure_pwd = md5(obj["password"].encode("utf-8"))
+                obj["password"] = secure_pwd.hexdigest()
             self.__objects[key] = obj
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
-        json_objects = {}
+        json_objects = {}:
         for key in self.__objects:
             json_objects[key] = self.__objects[key].to_dict()
         with open(self.__file_path, 'w') as f:

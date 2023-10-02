@@ -61,5 +61,5 @@ def update_user_detail(user_id):
     for key, val in changes.items():
         if not (key in ("id", "created_at", "email", "updated_at")):
             setattr(user, key, val)
-    storage.save()
+    user.save()
     return jsonify(user.to_dict())

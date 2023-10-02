@@ -15,6 +15,7 @@ from os import getenv
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from hashlib import md5
 
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -53,6 +54,8 @@ class DBStorage:
 
     def new(self, obj):
         """add the object to the current database session"""
+        if obj.__class__.__name == "User" or obj.__class__ == User:
+            obj["password"] = md5(obj["password"].encode("utf-8")).hexdigest()
         self.__session.add(obj)
 
     def save(self):
