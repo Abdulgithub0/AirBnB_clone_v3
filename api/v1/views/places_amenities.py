@@ -32,7 +32,7 @@ def delete_a_place_amenity(place_id, amenity_id):
         abort(404)
     if storage_t == "db":
         for a in place.amenities:
-            if a.["id"] == amenity_id:
+            if a["id"] == amenity_id:
                 check = 1
                 break
     elif not (amenity_id in places.amenity_ids):
@@ -54,7 +54,7 @@ def add_amenities_to_place(place_id, amenity_id):
         abort(404)
     if storage_t == "db":
         for a in place.amenities:
-            if a.["id"] == amenity_id:
+            if a["id"] == amenity_id:
                 check = 1
                 break
     elif not (amenity_id in places.amenity_ids):
