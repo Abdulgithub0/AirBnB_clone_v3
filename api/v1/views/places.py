@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""view for Place object.
+"""view for Place objects.
     It handles all default RESTFul API actions
 """
 
@@ -52,9 +52,9 @@ def create_a_place(city_id):
     if not new_place:
         return jsonify({"error": "Not a JSON"}), 400
     if not ("name" in new_place):
-        abort(400, message="Missing name")
+        return jsonify({"error": "Missing name"}), 400
     if not ("user_id" in new_place):
-        abort(400, message="Missing user_id")
+        return jsonify({"error": "Missing user_id"}), 400
     if not storage.get(User, new_place["user_id"]):
         abort(404)
     new = Place(**new_place)
@@ -71,7 +71,7 @@ def update_a_place(place_id):
     if not place:
         abort(404)
     if not changes:
-        abort(400, message="Not a JSON")
+        return jsonify({"error": "Not a JSON"}), 400
     for key, val in changes.items():
         if not (key in ("id", "created_at", "update_at",
                         "city_id", "user_id")):
