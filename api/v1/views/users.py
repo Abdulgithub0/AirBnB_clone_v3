@@ -40,11 +40,11 @@ def create_user():
     """added new user to the data storage"""
     new_user = request.get_json()
     if not new_user:
-        return jsonify({"error": "Not a JSON"}), 400
+        abort(400, message="Not a JSON")
     if not ("email" in new_user):
-        return jsonify({"error": "Missing email"}), 400
+        abort(400, message="Missing email")
     if not ("password" in new_user):
-        return jsonify({"error": "Missing password"}), 400
+        abort(400, message="Missing password")
     new = User(**new_user)
     new.save()
     return jsonify(new.to_dict()), 201
@@ -57,7 +57,7 @@ def update_user_detail(user_id):
     if not user:
         abort(404)
     if not changes:
-        return jsonify({"error": "Not a JSON"}), 400
+        abort(400, message="Not a JSON")
     for key, val in changes.items():
         if not (key in ("id", "created_at", "email", "updated_at")):
             setattr(user, key, val)

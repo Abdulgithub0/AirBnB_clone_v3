@@ -46,9 +46,9 @@ def create_city(state_id):
     if not state:
         abort(404)
     if not new_city:
-        return jsonify({"error": "Not a JSON"}), 400
+        abort(400, message="Not a JSON")
     if not ("name" in new_city):
-        return jsonify({"error": "Missing name"}), 400
+        abort(400, message="Missing name")
     new_city.update({"state_id": state_id})
     new = City(**new_city)
     new.save()
@@ -63,7 +63,7 @@ def update_a_city(city_id):
     if not city:
         abort(404)
     if not new_update:
-        abort(400)
+        abort(400,  message="Not a JSON")
     for key, val in new_update.items():
         if not (key in ("id", "created_at", "updated_at")):
             setattr(city, key, val)

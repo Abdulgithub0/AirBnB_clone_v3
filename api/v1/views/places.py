@@ -48,19 +48,14 @@ def create_a_place(city_id):
     city = storage.get(City, city_id)
     new_place = request.get_json()
     if not city:
-        print(1)
         abort(404)
     if not new_place:
-        print(2)
         return jsonify({"error": "Not a JSON"}), 400
     if not ("name" in new_place):
-        print(3)
-        return jsonify({"error": "Missing name"}), 400
+        abort(400, message="Missing name")
     if not ("user_id" in new_place):
-        print(4)
-        return jsonify({"error": "Missing user_id"}), 400
+        abort(400, message="Missing user_id")
     if not storage.get(User, new_place["user_id"]):
-        print(5)
         abort(404)
     new = Place(**new_place)
     new.save()
@@ -76,7 +71,7 @@ def update_a_place(place_id):
     if not place:
         abort(404)
     if not changes:
-        return jsonify({"error": "Not a JSON"}), 400
+        abort(400, message="Not a JSON")
     for key, val in changes.items():
         if not (key in ("id", "created_at", "update_at",
                         "city_id", "user_id")):
