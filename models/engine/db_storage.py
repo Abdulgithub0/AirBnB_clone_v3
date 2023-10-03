@@ -1,7 +1,8 @@
 #!/usr/bin/python3
+"""Contains the DBStorage class and its associated 
+    attributes and methods.
 """
-Contains the class DBStorage
-"""
+
 
 import models
 from models.amenity import Amenity
