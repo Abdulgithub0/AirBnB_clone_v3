@@ -38,14 +38,11 @@ def delete_a_state(state_id):
 @app_views.route("/states", methods=["POST"], strict_slashes=False)
 def create_a_state():
     """add new state into storage engine"""
-    try:
-        new_state = request.get_json()
-        if not new_state:
-            raise TypeError("Not a JSON")
-        if not ("name" in new_state):
-            raise ValueError("Missing name")
-    except (TypeError, ValueError) as e:
-        return jsonify({"error": e}), 400
+    new_state = request.get_json()
+    if not new_state:
+        return jsonify({"error": "Not a JSON"}), 400
+    if not ("name" in new_state):
+        return jsonify({"error": "Missing name"}), 400
     new_state = m.state.State(**new_state)
     new_state.save()
     return (jsonify(new_state.to_dict(), 201))
