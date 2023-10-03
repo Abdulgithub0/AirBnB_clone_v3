@@ -79,11 +79,13 @@ def update_a_place(place_id):
     storage.save()
     return jsonify(place.to_dict())
 
+
+"""
 @app_views.route("/places_search", strict_slashes=False)
 def handler_for_places():
-    """retrieves all Place objects depending of
+    retrieves all Place objects depending of
         the JSON in the body of the request
-    """
+    
     body = request.get_json()
     if not body:
         return jsonify({"error": "Not a JSON"}), 400
@@ -92,4 +94,4 @@ def handler_for_places():
     if len(filter(lambda x: len(x) > 0, body.values())) == 0:
         return jsonify([p.to_dict() for p in storage.all(Place)])
     if body.get("states") and len(body.get("states")
-
+"""
